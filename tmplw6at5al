@@ -834,7 +834,7 @@ class Add_signal(QtWidgets.QWidget,object):
         hlayout = QtWidgets.QHBoxLayout(self)
         self.edit_fileloc = QtWidgets.QLineEdit(self)
         hlayout.addWidget(self.edit_fileloc)
-        self.button_select_folder = QtWidgets.QPushButton('...',self)
+        self.button_select_folder = QtWidgets.QPushButton(self,'...')
         self.button_select_folder.clicked.connect(self.__get_file)
         hlayout.addWidget(self.button_select_folder)
         self.layout.addLayout(hlayout)
