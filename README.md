@@ -14,11 +14,11 @@ ea = EventAnnotator.Event_annotator()
 ## Install
 ```
 pip3 install --upgrade pip
-pip install --upgrade PyQt5
+pip3 install --upgrade PyQt5 setuptools wheel
 
 git clone https://github.com/roger-selzler/event_annotator
 cd event_annotator
-pip install .
+pip3 install .
 ```
 
 ## signals
@@ -69,33 +69,22 @@ Selects the minimum value of the selected points from the axis and stores it to 
 
 # Example
 ```python
-# libraries for creating the signals
-import numpy as np
-from scipy import signal
-
-# event_annotator package
 import event_annotator
-
-# create signal
-N=2000
-x = np.arange(0,N,1)
-y = np.random.random(N)
-yf = signal.filtfilt(np.ones(10)/10,1,y)
-
-#create the event anotator object
 ea = event_annotator.Event_annotator()
 
-# add the signals
-ea.add_signal(x,     y,   yf, name='Signal 1')
-ea.add_signal(x*1.2, y+2, yf, name='Modified signal')
+#load sample data
+ecg_data = event_annotator.load_csv_data('ecg')
 
-# create the labels
-ea.add_label(name='peaks',         label_type='points', filename_loc='C://peaks.pkl')
-ea.add_label(name='good_segments', label_type='range' , filename_loc='C://good_segments.pkl')
+# add signals to ea through code
+ea.add_signal(x=ecg_data.x,y=ecg_data.y,yf=ecg_data.yf,name='Ecg')
 
-# execute the application
+# add labels to ea through code
+ea.add_label('RComplex',label_type='points',filename_loc = 'tst')
+# ea.add_label('LowPeaks',label_type='points',filename_loc = 'D://RPeaksFilenameTst2') 
+ea.add_label('Bad Ecg signal',label_type='range',filename_loc = 'bad ecg segment')
+
+# run the application
 ea.run()
-
 
 ```
 
