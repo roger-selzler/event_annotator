@@ -15,5 +15,9 @@ setup(name='event_annotator',
           'pandas>=1.0',
           'numpy>=1.18',
           'matplotlib>=3.2',
-          ])
+          ],
+      package_data={
+          'ecg': ['ecg_data.csv']},
+      include_package_data=True, 
+      )
 

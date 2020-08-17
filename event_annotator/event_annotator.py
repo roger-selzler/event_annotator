@@ -558,6 +558,8 @@ class Label(object):
     def __assert_filename_loc(self,filename_loc):
         if filename_loc == '' or filename_loc is None:
             filename_loc = os.path.join(os.getcwd(),self._name)
+        if not os.path.isdir(os.path.split(filename_loc)[0]):
+            filename_loc = os.path.join(os.getcwd(),filename_loc)
         loc = os.path.split(filename_loc)[0]
         filename = os.path.split(filename_loc)[1]
         if not os.path.isdir(loc): raise ValueError('{} path does not exist.'.format(loc))
@@ -945,9 +947,28 @@ class Add_label(QtWidgets.QWidget,object):
         
         
         
+# def utils():
+    # def __init__(self):
+    #     self.ecgdata = self.load_csv_data('ecg_data.csv')
+    
+def load_csv_data(data):
+    valid_data = ['ecg','accel']    
+    if data not in valid_data:
+        print('Invalid data. Options are: {}'.format(valid_data))
+        return 
+    filenames = dict(ecg='ecg_data.csv',
+                     accel='accel_data.csv')
+    filename = filenames[data]
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    filename_loc = os.path.join(dir_path,filename)
+    if os.path.isfile(filename_loc):
+        return pd.read_csv(filename_loc,index_col=0)
+    else: return None
         
+
 if __name__ == '__main__':
     plt.close('all')
+    print()
     QtWidgets.QApplication.closeAllWindows()
     N=2000
     np.random.seed(N)
