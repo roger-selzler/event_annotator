@@ -30,8 +30,8 @@ signal2_yf = sgn.filtfilt(np.ones(4)/4,1,signal2_y)
 
 
 
-import EventAnnotator
-ea = EventAnnotator.Event_annotator()
+import event_annotator
+ea = event_annotator.Event_annotator()
 ea.config['log']=True
 ea.add_label('HighPeaks',label_type='points',filename_loc = 'D://RPeaksFilenameTst')
 ea.add_label('LowPeaks',label_type='points',filename_loc = 'D://RPeaksFilenameTst2') 
