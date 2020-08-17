@@ -53,17 +53,22 @@ The tools states how the values will be selected from the signals. Left click wi
 ##### Selected points
 All points selected will be added to the label.
 
-##### Max segment: 
+##### Max segment:
+
+<div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_max_segment.png" width="25%"></div>
 The code detects the jumps in indexes and breaks the selected signal in segments. For each of these segments, the 'x' value of the maximum value of the segment will be stored on the label.
 
 ##### Min segment: 
+<div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_min_segment.png" width="25%"></div>
 Same as Max segment, but selecting the minimum values.
 
 #### Single point
 ##### Max:
+<div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_max.png" width="25%"></div>
 Selects the maximum point of the selected values from the axis and stores it to the label.
 
 ##### Min:
+<div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_min.png" width="25%"></div>
 Selects the minimum value of the selected points from the axis and stores it to the label.
 
 
