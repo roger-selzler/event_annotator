@@ -981,27 +981,8 @@ if __name__ == '__main__':
     # ea.add_label('Activities2',label_type='range',filename_loc = 'D://Activities2FilenameTst')
     
     
-    # signal = Signal(np.random.random(100))
-    # tool = Tool(ea,'max',np.argmax)
+
     ea.run()
-    ea.summary()
-    # data=ea._active_signal.data
-    # data=data[  (data.x>=50) & 
-    #             (data.x<=60) &
-    #             (data.y>=0.5) &
-    #             (data.y<=1.5)]
-    # print(data)
-    # tool = ea._active_tool
-    # tool.apply(50,69,0.5,1.5)
-    # tool.apply(data[10:20]
-    # def on_enter_axis(event):
-    #     print(event.inaxes.tst)
-    # fig,ax = plt.subplots(5,1,sharex=True)
-    # for axxi,axx in enumerate(ax):
-    #     axx.plot(np.random.random(204),label='name '+str(axxi))
-    #     axx.tst = 'name idx {}'.format(axxi)
-    # fig.canvas.mpl_connect('axes_enter_event',on_enter_axis)
-    # fig.legend()
-    # fig.show()
+    
     
         
