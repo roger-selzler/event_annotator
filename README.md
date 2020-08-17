@@ -10,6 +10,17 @@ Another great example would be to know which parts of the signals cannot be used
 import EventAnnotator
 ea = EventAnnotator.Event_annotator()
 ```
+
+## Install
+```
+pip3 install --upgrade pip
+pip install --upgrade PyQt5
+
+git clone https://github.com/roger-selzler/event_annotator
+cd event_annotator
+pip install .
+```
+
 ## signals
 Signals contain the time series data to be plotted. 
 
@@ -62,8 +73,8 @@ Selects the minimum value of the selected points from the axis and stores it to 
 import numpy as np
 from scipy import signal
 
-# EventAnnotator library
-import EventAnnotator
+# event_annotator package
+import event_annotator
 
 # create signal
 N=2000
@@ -72,7 +83,7 @@ y = np.random.random(N)
 yf = signal.filtfilt(np.ones(10)/10,1,y)
 
 #create the event anotator object
-ea = EventAnnotator.Event_annotator()
+ea = event_annotator.Event_annotator()
 
 # add the signals
 ea.add_signal(x,     y,   yf, name='Signal 1')
