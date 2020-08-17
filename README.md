@@ -49,12 +49,13 @@ range values will store the 'x_start' and 'x_end' values of a selected range. Th
 The tools states how the values will be selected from the signals. Left click will add points with the selected tool while Right click will remove points with the selected tool.
 
 ### existing tools
+
 #### Multi-point
 ##### Selected points
+<div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_selected_points.png" width="25%"></div>
 All points selected will be added to the label.
 
 ##### Max segment:
-
 <div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_max_segment.png" width="25%"></div>
 The code detects the jumps in indexes and breaks the selected signal in segments. For each of these segments, the 'x' value of the maximum value of the segment will be stored on the label.
 
@@ -71,6 +72,9 @@ Selects the maximum point of the selected values from the axis and stores it to 
 <div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_min.png" width="25%"></div>
 Selects the minimum value of the selected points from the axis and stores it to the label.
 
+#### Range
+<div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_range.png" width="25%"></div>
+Select the start and end oa segment. It is the only tool for range labels.
 
 # Example
 ```python
