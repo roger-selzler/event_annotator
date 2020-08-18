@@ -14,7 +14,7 @@ ea = EventAnnotator.Event_annotator()
 ## Install
 ```
 pip3 install --upgrade pip
-pip3 install --upgrade PyQt5 setuptools wheel
+pip3 install --upgrade PyQt5 setuptools wheel pyqt5-tools
 
 git clone https://github.com/roger-selzler/event_annotator
 cd event_annotator
