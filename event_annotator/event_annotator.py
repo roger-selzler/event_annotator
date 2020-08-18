@@ -38,6 +38,7 @@ class Event_annotator():
         self._figure_created=False
         self.__create_default_tools()
         self._axvspan = dict()
+        self._xlimits = [0, 1]
         
     def __assert_data_required(self):
         if len(self.signals())==0: raise ValueError('Need to add at least one signal')
@@ -125,8 +126,8 @@ class Event_annotator():
         
     def __rectangle_on_select(self,eclick,erelease):
         if self.config['log']:
-            print('eclick: \n{}\nerelese: \n{}\n'.format(eclick.__dict__,erelease.__dict__))
             print("function __rectangle_on_select with signal '{}'".format(self._active_signal._name))            
+            print('eclick: \n{}\nerelese: \n{}\n'.format(eclick.__dict__,erelease.__dict__))
             print('startposition: (%f, %f)' % (eclick.xdata, eclick.ydata))
             print('endposition  : (%f, %f)' % (erelease.xdata, erelease.ydata))
             print('used button  : ', eclick.button)
@@ -136,6 +137,11 @@ class Event_annotator():
         x_selection = [min([eclick.xdata,erelease.xdata]),max([eclick.xdata,erelease.xdata])]
         y_selection = [min([eclick.ydata,erelease.ydata]),max([eclick.ydata,erelease.ydata])]
         # self._active_signal.data
+        # if action == 'remove' and self._active_label._label_type == 'points':
+        #     tooli = [tool_i for tool_i,tool in enumerate(self._tools) if tool._name.lower() == 'selected points'][0]
+        #     tool = self._tools[tooli]
+        # else:
+        #     tool=self._active_tool
         tool=self._active_tool
         label = self.active_label
         values_to_append = tool.apply(x_selection[0],x_selection[1],y_selection[0],y_selection[1])
@@ -156,7 +162,7 @@ class Event_annotator():
         self.update_scatter()
         self.update_scatter_visibility()
         self.fig.canvas.draw()
-        
+        if self.config['log']: print("finished __rectangle_on_select with signal '{}'".format(self._active_signal._name))            
                 
                 
     def add_configuration(self,**kwargs):
@@ -166,6 +172,11 @@ class Event_annotator():
     def add_signal(self,x,y=None,yf=None,name=''):
         signal = Signal(x,y,yf,name)
         self._signals[len(self._signals)] = signal
+        # if self._xlimits[0] < signal.data.x.min():
+        #     self._xlimits[0]= signal.data.x.min()
+        # if self._xlimits[1] > signal.data.x.max():
+        #     self._xlimits[1]= signal.data.x.max()        
+        # if len(self._signals) == 1: xlimits = (signal.data.x.min(),signal.data.x.max())
         if self._active_signal is None: self._active_signal = signal
         return signal
     
@@ -182,8 +193,9 @@ class Event_annotator():
         return label
     
     def create_lines(self):
-        ax = self.fig.subplots(len(self.signals()),1,sharex=True)
-        self.ax = np.asarray([ax]) if len(self.signals())==1 else ax
+        n_lines = len(self.signals()) if len(self.signals())>0 else 1
+        ax = self.fig.subplots(n_lines,1,sharex=True)
+        self.ax = np.asarray([ax]) if n_lines==1 else ax
         self._scatter={}
         self._axvspan = {}
         
@@ -374,6 +386,7 @@ class Event_annotator():
                     scatter[1].set_offsets(np.vstack((dataf.x.values,dataf.yf.values)).T)
         # self.fig.canvas.draw()
         if self.config['log']: print('finished update_scatter')
+        
     def update_ylimit(self):
         if self.config['log']: print('function update_ylimit')
         if len(self.ax) > 0:
@@ -500,6 +513,7 @@ class Tool(object):
                     value_to_append = [data.x.min(), data.x.max()]   
                     if value_to_append[0] != value_to_append[1]:
                         values_to_return.append(value_to_append)
+        if self.__ea.config['log']: print('Values to return: {}'.format(str(values_to_return)))
         return values_to_return
                 
         
@@ -854,20 +868,25 @@ class Add_signal(QtWidgets.QWidget,object):
             error_dialog.showMessage('File does not exist')
             return
         if signal_name == "":
-            print(signal_name)
             signal_names = [signal._name for signal in self.__ea.signals()]
             for i in range(len(signal_names)+1):
                 signal_name = 'Signal {}'.format(i+1)
                 print(signal_name)
                 if signal_name not in signal_names:
                     break
-        
-        self.__ea.add_signal(np.random.random(2000),name=signal_name)
-        self.__ea.fig.clf()
-        self.__ea.create_lines()
-        self.__ea.fig.canvas.draw()
+        print('Signal: {}, filename_loc: {}'.format(signal_name,filename))
+        try:
+            data = pd.read_csv(filename,index_col=0)
+            self.__ea.add_signal(data.x,data.y,data.yf,name=signal_name)
+            self.__ea.fig.clf()
+            self.__ea.create_lines()
+            self.__ea.fig.canvas.draw()
+            
+        except Exception as e:
+            print(e)
+        self.close()
         # self.__ea.update
-        print(signal_name)
+        
             # for signal in self.__ea.signals():
                 
     def __get_file(self):
@@ -937,6 +956,8 @@ class Add_label(QtWidgets.QWidget,object):
         dialog = QtWidgets.QMessageBox(self)
         dialog.setText(buffer.getvalue().strip())
         dialog.show()
+        if label_type == 'range':
+            self.__ea.update_axvspan()
         self.close()
         print(label)
     
