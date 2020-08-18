@@ -50,6 +50,19 @@ The tools states how the values will be selected from the signals. Left click wi
 
 ### existing tools
 
+#### Single point
+##### Max:
+<div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_max.png" width="25%"></div>
+Selects the maximum point of the selected values from the axis and stores it to the label.
+
+##### Min:
+<div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_min.png" width="25%"></div>
+Selects the minimum value of the selected points from the axis and stores it to the label.
+
+##### Middle:
+<div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_middle.png" width="25%"></div>
+Selects the middle value between the minimum and maximum x values selected from the axis and stores it to the label.
+
 #### Multi-point
 ##### Selected points
 <div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_selected_points.png" width="25%"></div>
@@ -63,14 +76,6 @@ The code detects the jumps in indexes and breaks the selected signal in segments
 <div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_min_segment.png" width="25%"></div>
 Same as Max segment, but selecting the minimum values.
 
-#### Single point
-##### Max:
-<div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_max.png" width="25%"></div>
-Selects the maximum point of the selected values from the axis and stores it to the label.
-
-##### Min:
-<div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_min.png" width="25%"></div>
-Selects the minimum value of the selected points from the axis and stores it to the label.
 
 #### Range
 <div><img src="https://github.com/roger-selzler/event_annotator/blob/master/images/ea_range.png" width="25%"></div>
@@ -83,14 +88,16 @@ ea = event_annotator.Event_annotator()
 
 #load sample data
 ecg_data = event_annotator.load_csv_data('ecg')
+accel_data = event_annotator.load_csv_data('accel')
 
 # add signals to ea through code
 ea.add_signal(x=ecg_data.x,y=ecg_data.y,yf=ecg_data.yf,name='Ecg')
+ea.add_signal(x=accel_data.x,y=accel_data.y,yf=accel_data.yf,name='Accelerometer')
+
 
 # add labels to ea through code
-ea.add_label('RComplex',label_type='points',filename_loc = 'tst')
-# ea.add_label('LowPeaks',label_type='points',filename_loc = 'D://RPeaksFilenameTst2') 
-ea.add_label('Bad Ecg signal',label_type='range',filename_loc = 'bad ecg segment')
+ea.add_label('RComplex',label_type='points',filename_loc = 'RComplex')
+ea.add_label('Movement',label_type='range',filename_loc = 'Movement')
 
 # run the application
 ea.run()
